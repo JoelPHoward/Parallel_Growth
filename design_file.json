@@ -1,0 +1,127 @@
+{
+	"designs": {
+		"design_1": {
+			"strain": [1,2,3,4,5,6,7,8],
+			"substrate": [1,2,3,4],
+			"media": [2,3],
+			"replicates": 4
+		},
+		"design_2": {
+			"strain": [1,2,3,4,5,6,7,8],
+			"substrate": 5,
+			"media": 1,
+			"replicates": 4
+		}
+	},
+	"plates": {
+		"plate_1":{
+			"format": 96,
+			"volume": 200
+		},
+		"plate_2":{
+			"format": 96,
+			"volume": 200
+		},
+		"plate_3":{
+			"format": 96,
+			"volume": 200
+		}
+	},
+	"strains": {
+		"C. kluyveri": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"P. alactolyticus": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"M. elsdenii": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"M. hexanoica": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"C. fermentens": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"C. 7D4C2": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"C. acetobutylicum": {
+			"v1": null,
+			"c1": 1, 
+			"c2": 0.01,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"Blank": {
+			"v1": 5,
+			"c1": null, 
+			"c2": null,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		}
+	},
+	"substrates": {
+		"Ethanol": {
+			"v1": null,
+			"c1": 95, 
+			"c2":2.375,
+			"liq_class": "Tip_50ul_EtOH_DispenseSurface_Empty"
+		},
+		"Lactate": {
+			"v1": null,
+			"c1": 400, 
+			"c2": 10,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"Glucose": {
+			"v1": null,
+			"c1": 400, 
+			"c2": 10,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"Xylose": {
+			"v1": null,
+			"c1": 400, 
+			"c2": 10,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		},
+		"Water": {
+			"v1": 5,
+			"c1": 0, 
+			"c2": 0,
+			"liq_class": "Tip_50ul_Water_DispenseSurface_Empty"
+		}
+	},
+	"medias": {
+		"ATCC Medium 2107": {
+			"liq_class": "StandardVolume_Water_DispenseSurface_Empty"
+		},
+		"DSMZ Medium 104b": {
+			"liq_class": "StandardVolume_Water_DispenseSurface_Empty"
+		},
+		"DSMZ Medium 52": {
+			"liq_class": "StandardVolume_Water_DispenseSurface_Empty"
+		}
+	},
+	"blank": {
+		"strain": 8
+	},
+	"identical_plates": false
+}

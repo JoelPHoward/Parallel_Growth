@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ -d "$1" ]
+then
+	echo "The directory $1 already exists. Eiher delete this directory or choose a unique path and rerun initialization."
+	exit 0
+fi
+
+echo "Creating new folder for experiment in $1"
+mkdir $1
+cd $1
+
+mkdir sample_plates
+mkdir data
+mkdir data/raw_data
+mkdir data/processed_data
+mkdir data/processed_data/filtered
+mkdir data/processed_data/unfiltered
+mkdir img
+mkdir img/microscope
+mkdir img/growth_curves
+mkdir img/setup
