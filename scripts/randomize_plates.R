@@ -2,7 +2,8 @@
 # Design file (json) that specifies the plates and the designs to use (character)
 design_file <- "./design_file.json"
 # random seed (int)
-seed <- 4
+date <- Sys.Date()
+seed <- as.numeric(date)
 # output folder (dir created in from initialize_experiment) (character)
 out_dir <- "./"
 # number of pipette channels on NIMBUS
@@ -16,7 +17,7 @@ shape <- "strain"
 #col_palette
 col_palette <- c(RColorBrewer::brewer.pal(8, 'Dark2'), RColorBrewer::brewer.pal(3, 'Set1')[1],'black')
 #shape_palette
-shape_palette <- c(1:8)
+shape_palette <- c(1:10)
 #fill_palette
 fill_palette <- c('red', 'blue', 'green', 'yellow')
 ##### END INPUTS ######
@@ -60,7 +61,8 @@ get_wells <- function(format){
 ####### END FUNCTIONS #############
 
 # set seed
-set.seed(seed)
+set.seed(seed) # prior to 2022-11-14, the seed was set to the value of 4
+write.csv(data.frame(Date = date, Seed = seed), "seed_used.csv")
 
 # load design file
 design_json <- fromJSON(file = design_file)
@@ -110,7 +112,7 @@ if(design_json$identical_plates == TRUE && nrow(designs_df)>plate_format){
 }
 # if plates are not meant to be identical, the total number of designs can't exceed the number of wells for all plates
 if(nrow(designs_df) > sum(unlist(lapply(design_json$plates, function(x) x$format)))){
-    stop(paste0("Only ", sum(lapply(design_json$plates, function(x) x$format)), " wells available, but ", sum(lapply(designs_df, nrow)), " required. Decrease number of designs or add more wells."))
+    stop(paste0("Only ", sum(unlist(lapply(design_json$plates, function(x) x$format))), " wells available, but ", sum(unlist(lapply(designs_df, nrow))), " required. Decrease number of designs or add more wells."))
 }
 
 # list of each design, ignoring replicates
@@ -184,17 +186,12 @@ for(i in 1:n_plates){
     sample_plates[[i]] <- as.data.frame(sample_plate)
 }
 
-for(i in 1:length(sample_plates)){
-    tmp <- sample_plates[[i]] %>% select("SPL", "SPLC", "strain", "substrate", "media", "replicates", "plate", "well", "column", "row", "row_n")
-    write.csv(tmp, paste0(out_dir, "sample_plates/Sample_", gsub(" ", "_", unique(tmp$plate)), ".csv"))
-}
-
 # combine into one data frame
 sample_plate_df <- do.call(rbind, sample_plates)
 dims <- get_plate_dims(96)
 
 # create visual of sample plate
-pdf(paste0(out_dir, 'img/setup/sampleplate_layout.pdf'), height = 12, width = 11)
+pdf(paste0(out_dir, 'img/setup/sampleplate_layout2.pdf'), height = (4*n_plates), width = 15)
 ggplot(data = sample_plate_df, aes(x = column, y = row_n)) +
     geom_point(aes_string(fill = fill), shape = 21, size = 10, alpha = 0.1) +
     geom_point(aes_string(shape = shape, color = colour), stroke = 1) +
@@ -208,10 +205,21 @@ ggplot(data = sample_plate_df, aes(x = column, y = row_n)) +
     xlab('') +
     ylab('') +
     theme_base() +
-    theme(axis.ticks = element_blank(), plot.background = element_blank()) +
+    theme(axis.ticks = element_blank(), plot.background = element_blank(), legend.box = "horizontal") +
     guides(fill = guide_legend(order = 1), shape = guide_legend(order = 2), colour = guide_legend(order = 3)) +
     facet_grid(rows = "plate")
 dev.off()
+
+for(i in 1:length(sample_plates)){
+    tmp <- sample_plates[[i]] %>% select("SPL", "SPLC", "strain", "substrate", "media", "replicates", "plate", "well", "column", "row", "row_n")
+    tmp <- tmp %>% group_by(substrate, media) %>% group_split() %>% as.list()
+    for(j in 1:length(tmp)){
+        x <- unique(tmp[[j]]$SPLC)
+        tmp[[j]]$SPLC <- x[grep("SPLC", x)]
+    }
+    tmp <- do.call(rbind, tmp)
+    write.csv(tmp, paste0(out_dir, "sample_plates/Sample_", gsub(" ", "_", unique(tmp$plate)), ".csv"))
+}
 
 # create culture plate (assuming it is a 96WP)
 culture_plate <- data.frame(well = rep("", 96))
